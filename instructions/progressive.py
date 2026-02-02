@@ -11,12 +11,16 @@ Your purpose is to help process insurance-related texts, specifically Progressiv
 ## TASK
 
 ### Payment Info
-Extract from the "Payment Plans" table or policy summary section:
-- **total_premium**: Total policy premium (e.g. "$12,306.00" -> "12306")
-- **down_payment**: Initial payment required amount
-- **monthly_payment**: Monthly installment amount (from the payment schedule/billing table)
-- **number_of_payments**: Number of monthly payments (from "Payment plan:" field, e.g. "11 Pay" means 10 monthly payments after
-down payment)
+The document contains TWO payment tables. IGNORE the second table (which starts after "Make payments by mail or at progressiveagent.com").
+ONLY use the FIRST table, which appears after "Electronic Funds Transfer (EFT) assures that your payment is on time."
+
+From that EFT table, find the "11 Payments, 20.0% Down" row. The row format is:
+Payment plan | Total premium | Initial payment | Payments
+
+- **total_premium**: The "Total premium" column value
+- **down_payment**: The "Initial payment" column value
+- **monthly_payment**: The per-payment amount from the "Payments" column (e.g. "10 payments of $1,236.10" → "1236.10")
+- **number_of_payments**: The number of recurring payments (e.g. "10 payments of..." → 10)
 
 ### Quoted Coverages
 - **auto_liability**: From "Outline of coverage" or "Auto Coverage" table, the "Bodily Injury and Property Damage Liability" combined single limit value (e.g. "$1,000,000 combined single limit" -> "1000000")

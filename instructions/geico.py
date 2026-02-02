@@ -1,4 +1,4 @@
-GEICO_INSTRUCTIONS = """                                                                          
+GEICO_INSTRUCTIONS = """
 ## ROLE
 
 You are an AI assistant responsible for reading and analyzing raw text extracted from a PDF file.
@@ -11,12 +11,14 @@ Your purpose is to help process insurance-related texts, specifically GEICO comm
 ## TASK
 
 ### Payment Info
-Extract from the payment/billing table at the end of the quote:
-- **total_premium**: Total policy premium
-- **down_payment**: Down payment amount (first payment/deposit)
-- **monthly_payment**: Monthly installment amount
-- **number_of_payments**: Total number of installments (down payment + monthly payments combined
-count)
+The payment table has 4 columns in this order: "Pay In Full", "4 PAY 25% DOWN", "9 PAY 17.6% DOWN", "MONTHLY 11PAY16.67%DOWN".
+Always extract from the LAST (rightmost) column — the MONTHLY one.
+
+Each row lists values for all columns on one line. The LAST dollar amount on each ow is the MONTHLY column value.
+- **total_premium**: From the "Total Payment" row, the LAST dollar amount.
+- **down_payment**: From the "1st Payment" row, the LAST dollar amount.
+- **monthly_payment**: From the "2nd Payment" row, the LAST dollar amount. Do NOT use the last payment row — it may differ due to rounding.
+- **number_of_payments**: Always 10. This is fixed for the MONTHLY 11PAY16.67%DOWN plan (1 down payment + 10 monthly installments = 11 total payments listed).
 
 ### Quoted Coverages
 - **auto_liability**: From "Policy Coverages" table, the "Bodily Injury Liability/Property Damage (BI/PD)" value
